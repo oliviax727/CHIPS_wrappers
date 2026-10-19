@@ -270,7 +270,7 @@ class ChipsDataProducts(object):
         
         return 1 / output
     
-    def _read_in_data_and_convert(self, polarisation, chips_tag=False, oneD=False):
+    def _read_in_data_and_convert(self, polarisation, chips_tag=False, oneD=False, save_npz_file="2D_coords_and_power.npz"):
         """Attempt to read in the data based on user provided paths and polarisation
         options. Will first check for files that have had kriging (have a zero
         in the title), if it can't find those, look for ones without kriging
@@ -352,10 +352,11 @@ class ChipsDataProducts(object):
         
         self.weights = weights
 
-        np.savez("2D_coords_and_power.npz", k_perp=self.kper,
-                                            k_parr=self.kpa,
-                                            twoD_power=self.crosspower,
-                                            weights=weights)
+        if save_npz_file is not None:
+            np.savez(save_npz_file, k_perp=self.kper,
+                k_parr=self.kpa,
+                twoD_power=self.crosspower,
+                weights=weights)
         
     def read_data_and_create_2Darray(self, polarisation, chips_tag=False):
         """Attempt to read in the data based on user provided paths and polarisation
